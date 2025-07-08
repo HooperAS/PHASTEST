@@ -45,3 +45,20 @@ for fna_file in "$FASTA_DIR"/*.fna; do
     # Clean up temporary response files to avoid clutter
     rm -f "${OUTPUT_DIR}/${acc}_response.json" "${OUTPUT_DIR}/${acc}_response_retry.json"
 done
+
+# This code is used to rename subsequent files in PHASTEST directories to the base name
+#To extract the basename of directory to rename files in directory
+for dir in *_genomic/; do
+  cd "$dir" || continue
+  base=$(basename "$PWD")
+  for file in *; do
+    # Skip if it's already renamed
+    [[ $file == "$base"* ]] && continue
+    mv "$file" "${base}_$file"
+  done
+  cd ..
+done
+
+
+
+
